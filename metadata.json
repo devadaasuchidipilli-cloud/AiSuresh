@@ -1,0 +1,6 @@
+{
+  "name": "Super AI Agent",
+  "description": "Multilingual AI Platform & Autonomous Agent Workspace supporting Telugu, Hindi, English, and all major Indian languages with Universal Chat, Live Web Research, Voice Assistant, File Intelligence, and Coding Assistant.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

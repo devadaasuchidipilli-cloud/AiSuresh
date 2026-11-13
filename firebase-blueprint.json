@@ -1,0 +1,178 @@
+{
+  "entities": {
+    "Profile": {
+      "title": "Profile",
+      "description": "User profile and language preferences",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 200 },
+        "preferredLanguage": { "type": "string", "maxLength": 32 },
+        "voicePersona": { "type": "string", "maxLength": 32 },
+        "theme": { "type": "string", "enum": ["dark", "light"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "displayName", "preferredLanguage", "theme", "createdAt", "updatedAt"]
+    },
+    "Conversation": {
+      "title": "Conversation",
+      "description": "Multilingual AI chat conversation session",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "title": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "language": { "type": "string", "maxLength": 32 },
+        "domain": { "type": "string", "maxLength": 64 },
+        "messageCount": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "title", "language", "domain", "messageCount", "createdAt", "updatedAt"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "Individual chat message in a conversation",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "conversationId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "role": { "type": "string", "enum": ["user", "assistant"] },
+        "content": { "type": "string", "minLength": 1, "maxLength": 20000 },
+        "detectedLanguage": { "type": "string", "maxLength": 32 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "conversationId", "role", "content", "detectedLanguage", "createdAt"]
+    },
+    "AgentTask": {
+      "title": "AgentTask",
+      "description": "Multi-step autonomous AI agent task",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "title": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "goal": { "type": "string", "minLength": 1, "maxLength": 2000 },
+        "status": { "type": "string", "enum": ["planning", "awaiting_approval", "running", "completed", "failed"] },
+        "progress": { "type": "integer" },
+        "requiresApproval": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "title", "goal", "status", "progress", "requiresApproval", "createdAt", "updatedAt"]
+    },
+    "TaskStep": {
+      "title": "TaskStep",
+      "description": "Individual execution step within an agent task",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "taskId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "stepIndex": { "type": "integer" },
+        "title": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "toolName": { "type": "string", "maxLength": 64 },
+        "status": { "type": "string", "enum": ["pending", "awaiting_approval", "running", "completed", "skipped"] },
+        "isSensitive": { "type": "boolean" },
+        "output": { "type": "string", "maxLength": 5000 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "taskId", "stepIndex", "title", "toolName", "status", "isSensitive", "output", "createdAt", "updatedAt"]
+    },
+    "UploadedFile": {
+      "title": "UploadedFile",
+      "description": "Metadata and extracted summary of user uploaded file",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "fileName": { "type": "string", "minLength": 1, "maxLength": 255 },
+        "mimeType": { "type": "string", "maxLength": 100 },
+        "sizeBytes": { "type": "integer" },
+        "summary": { "type": "string", "maxLength": 10000 },
+        "extractedText": { "type": "string", "maxLength": 20000 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "fileName", "mimeType", "sizeBytes", "summary", "extractedText", "createdAt"]
+    },
+    "SearchHistory": {
+      "title": "SearchHistory",
+      "description": "Web research query and grounded summary",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "query": { "type": "string", "minLength": 1, "maxLength": 500 },
+        "summary": { "type": "string", "minLength": 1, "maxLength": 15000 },
+        "sourceCount": { "type": "integer" },
+        "confidence": { "type": "string", "maxLength": 64 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "query", "summary", "sourceCount", "confidence", "createdAt"]
+    },
+    "UsageRecord": {
+      "title": "UsageRecord",
+      "description": "API token and feature usage record",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "feature": { "type": "string", "maxLength": 64 },
+        "model": { "type": "string", "maxLength": 64 },
+        "tokensUsed": { "type": "integer" },
+        "latencyMs": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "feature", "model", "tokensUsed", "latencyMs", "createdAt"]
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "description": "Security and sensitive action audit log",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "action": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "module": { "type": "string", "maxLength": 64 },
+        "severity": { "type": "string", "enum": ["info", "warning", "high"] },
+        "details": { "type": "string", "maxLength": 1000 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "action", "module", "severity", "details", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/profiles/{profileId}": {
+      "schema": { "$ref": "#/entities/Profile" },
+      "description": "User profile documents keyed by userId"
+    },
+    "/conversations/{conversationId}": {
+      "schema": { "$ref": "#/entities/Conversation" },
+      "description": "AI Chat conversations"
+    },
+    "/messages/{messageId}": {
+      "schema": { "$ref": "#/entities/Message" },
+      "description": "Messages inside AI Chat conversations"
+    },
+    "/agent_tasks/{taskId}": {
+      "schema": { "$ref": "#/entities/AgentTask" },
+      "description": "Autonomous AI agent tasks"
+    },
+    "/task_steps/{stepId}": {
+      "schema": { "$ref": "#/entities/TaskStep" },
+      "description": "Steps belonging to an autonomous AI agent task"
+    },
+    "/uploaded_files/{fileId}": {
+      "schema": { "$ref": "#/entities/UploadedFile" },
+      "description": "Uploaded file analysis records"
+    },
+    "/search_history/{searchId}": {
+      "schema": { "$ref": "#/entities/SearchHistory" },
+      "description": "Grounded web research records"
+    },
+    "/usage_records/{usageId}": {
+      "schema": { "$ref": "#/entities/UsageRecord" },
+      "description": "Token and API usage telemetry"
+    },
+    "/audit_logs/{logId}": {
+      "schema": { "$ref": "#/entities/AuditLog" },
+      "description": "Security and sensitive action audit trail"
+    }
+  }
+}
